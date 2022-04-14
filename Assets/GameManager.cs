@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
         [Range(0f,1f)] public float weight;
     }
 
-
     [SerializeField] Tilemap tilemap;
     [SerializeField] RandomTile[] pathTiles;
     [SerializeField] Tile blockerTile;
@@ -20,15 +19,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] int height = 32;
     [SerializeField] int width = 32;
 
+    [SerializeField] PlayerController player;
+
     int[,] mapData;
 
-    void Start() {
-       mapData = new int[width,height];
+    void Start()
+    {
+        mapData = new int[width, height];
 
-       GenerateMap();
-       ClearTilemap();
-       DrawMap();
+        Restart();
 
+    }
+
+    void Update()
+    {
+        CheckVictory();
     }
 
     public int GetWidth()
@@ -49,13 +54,16 @@ public class GameManager : MonoBehaviour
         return tilemap.WorldToCell(mouseWorldPosition);
     }
 
-    private void GenerateMap()
+
+
+    public bool IsInBounds(Vector3Int targetPosition)
     {
-        for (int x = 0; x < width; x++)
-            for (int y = 0; y < height; y++)
-            {
-                mapData[x,y] = 0;
-            }
+        if (targetPosition.x < 0 || targetPosition.x >= GetWidth() || targetPosition.y < 0 || targetPosition.y >= GetHeight())
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private void DrawMap()
@@ -100,8 +108,42 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void Restart()
+    {
+        GenerateMap();
+        ClearTilemap();
+        DrawMap();
+        SetPlayerStart();
+    }
+
+    private void CheckVictory()
+    {
+        if (player.transform.position.y >= GetHeight() - 1)
+        {
+            Restart();
+        }
+    }
+
+    private void GenerateMap()
+    {
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+            {
+                mapData[x, y] = 0;
+            }
+    }
+
+    private void SetPlayerStart()
+    {
+        int start = Random.Range(0, GetWidth());
+
+        player.transform.position = new Vector3(start, 0, player.transform.position.z);
+    }
+
     private void ClearTilemap()
     {
         tilemap.ClearAllTiles();
     }
+
+
 }

@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Terrain
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: -321472735, guid: cbd9d480e33adbb4183a159f6b4b0cfc, type: 3}
+    - {fileID: 908131156, guid: cbd9d480e33adbb4183a159f6b4b0cfc, type: 3}
+    - {fileID: -1737677340, guid: cbd9d480e33adbb4183a159f6b4b0cfc, type: 3}
+    - {fileID: 544501603, guid: cbd9d480e33adbb4183a159f6b4b0cfc, type: 3}
+    - {fileID: 2146191978, guid: cbd9d480e33adbb4183a159f6b4b0cfc, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 908131156, guid: cbd9d480e33adbb4183a159f6b4b0cfc, type: 3}
+  - {fileID: -321472735, guid: cbd9d480e33adbb4183a159f6b4b0cfc, type: 3}
+  - {fileID: 544501603, guid: cbd9d480e33adbb4183a159f6b4b0cfc, type: 3}
+  - {fileID: -1737677340, guid: cbd9d480e33adbb4183a159f6b4b0cfc, type: 3}
+  - {fileID: 2146191978, guid: cbd9d480e33adbb4183a159f6b4b0cfc, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - 2DTerrain_1
+  - 2DTerrain_0
+  - 2DTerrain_3
+  - 2DTerrain_2
+  - 2DTerrain_4
+  m_RenderDataMap: {}
+  m_Tag: Terrain
+  m_IsVariant: 0

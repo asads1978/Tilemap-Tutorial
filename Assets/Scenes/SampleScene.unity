@@ -1351,6 +1351,7 @@ MonoBehaviour:
   blockerTile: {fileID: 11400000, guid: aac2e3b2590f67441b4f51850b73facb, type: 2}
   height: 8
   width: 8
+  player: {fileID: 709856069}
 --- !u!4 &887897411
 Transform:
   m_ObjectHideFlags: 0
