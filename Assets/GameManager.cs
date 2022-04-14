@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +5,16 @@ using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {
+    [System.Serializable]
+    public class RandomTile
+    {
+        public Tile tile;
+        [Range(0f,1f)] public float weight;
+    }
+
+
     [SerializeField] Tilemap tilemap;
-    [SerializeField] Tile pathTile;
+    [SerializeField] RandomTile[] pathTiles;
     [SerializeField] Tile blockerTile;
 
     [SerializeField] int height = 32;
@@ -24,19 +31,16 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
+    public int GetWidth()
     {
-        if(Input.GetMouseButton(0))
-        {
-            tilemap.SetTile(GetCellPositionFromMouse(), pathTile);
-        }
-
-        if(Input.GetMouseButton(1))
-        {
-            tilemap.SetTile(GetCellPositionFromMouse(), blockerTile);
-        }
+        return width;
     }
+
+    public int GetHeight()
+    {
+        return height;
+    }
+
 
     private Vector3Int GetCellPositionFromMouse()
     {
@@ -61,13 +65,39 @@ public class GameManager : MonoBehaviour
             {
                 if (mapData[x,y] == 0)
                 {
-                    tilemap.SetTile(new Vector3Int(x,y,0), pathTile);
+                    tilemap.SetTile(new Vector3Int(x,y,0), GetRandomTile(pathTiles));
                 }
                 else if (mapData[x,y] == 1)
                 {
                     tilemap.SetTile(new Vector3Int(x, y, 0), blockerTile);
                 }    
             }
+    }
+
+    private Tile GetRandomTile(RandomTile[] RandomTiles)
+    {
+
+        float totalWeight = 0f;
+
+        foreach(RandomTile randomTile in RandomTiles)
+        {
+            totalWeight += randomTile.weight;
+        }
+
+        float rand = Random.Range(0,totalWeight);
+
+        foreach (RandomTile randomTile in RandomTiles)
+        {
+            if (rand < randomTile.weight)
+            {
+                return randomTile.tile;
+            }
+
+            rand -= randomTile.weight;
+        }
+
+        return RandomTiles[0].tile;
+
     }
 
     private void ClearTilemap()

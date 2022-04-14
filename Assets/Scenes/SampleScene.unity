@@ -1341,10 +1341,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 536204191}
-  pathTile: {fileID: 11400000, guid: e73c6093bfadb094bb5249fd1aec03c6, type: 2}
+  pathTiles:
+  - tile: {fileID: 11400000, guid: e73c6093bfadb094bb5249fd1aec03c6, type: 2}
+    weight: 1
+  - tile: {fileID: 11400000, guid: 28a8a8c06e27939448db36034a2c75b3, type: 2}
+    weight: 0.253
+  - tile: {fileID: 11400000, guid: 396d0a404bcdb4e47a119588a8bdf36f, type: 2}
+    weight: 0.117
   blockerTile: {fileID: 11400000, guid: aac2e3b2590f67441b4f51850b73facb, type: 2}
-  height: 32
-  width: 32
+  height: 8
+  width: 8
 --- !u!4 &887897411
 Transform:
   m_ObjectHideFlags: 0
