@@ -18,10 +18,13 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] int height = 32;
     [SerializeField] int width = 32;
+    [SerializeField] int blindWalkMaxSteps = 1000;
 
     [SerializeField] PlayerController player;
 
     int[,] mapData;
+
+    int start = 1;
 
     void Start()
     {
@@ -110,10 +113,16 @@ public class GameManager : MonoBehaviour
 
     private void Restart()
     {
+        SetStart();
         GenerateMap();
         ClearTilemap();
         DrawMap();
-        SetPlayerStart();
+        PlacePlayer();
+    }
+
+    private void SetStart()
+    {
+        start = Random.Range(1, GetWidth()-2);
     }
 
     private void CheckVictory()
@@ -126,17 +135,84 @@ public class GameManager : MonoBehaviour
 
     private void GenerateMap()
     {
+        FillMap(1);
+
+        BlindWalk();
+    }
+
+    private void BlindWalk()
+    {
+        Vector3Int currentPosition = new Vector3Int(start,0,0);
+        Vector3Int targetPosition = currentPosition;
+        Vector3Int moveVector = Vector3Int.zero;
+
+        int direction = 0;
+
+        mapData[currentPosition.x,currentPosition.y] = 0;
+
+        int limit = 0;
+
+        while(limit < blindWalkMaxSteps && currentPosition.y != GetHeight() - 1  )
+        {
+            direction = Random.Range(1,5);
+
+            switch(direction)
+            {
+                case 1:
+                    moveVector = Vector3Int.up;
+                    break;
+                case 2:
+                    moveVector = Vector3Int.down;
+                    break;
+                case 3:
+                    moveVector = Vector3Int.left;
+                    break;
+                case 4:
+                    moveVector = Vector3Int.right;
+                    break;
+                default:
+                    moveVector = Vector3Int.zero;
+                    break;    
+            }
+
+            targetPosition = currentPosition + moveVector;
+
+            if(IsInFrame(targetPosition))
+            {
+                currentPosition = targetPosition;
+                mapData[currentPosition.x, currentPosition.y] = 0;
+                
+            }
+
+            limit++;
+            
+
+        }
+
+
+    }
+
+    private bool IsInFrame(Vector3Int targetPosition)
+    {
+        if (targetPosition.x < 1 || targetPosition.x >= GetWidth() -1 || targetPosition.y < 1 || targetPosition.y >= GetHeight())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private void FillMap(int fill)
+    {
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
             {
-                mapData[x, y] = 0;
+                mapData[x, y] = fill;
             }
     }
 
-    private void SetPlayerStart()
+    private void PlacePlayer()
     {
-        int start = Random.Range(0, GetWidth());
-
         player.transform.position = new Vector3(start, 0, player.transform.position.z);
     }
 
