@@ -21,14 +21,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] int blindWalkMaxSteps = 1000;
 
     [SerializeField] PlayerController player;
+    
+    [Range(0,10)]
+    [SerializeField] int SightRange = 2;
 
     int[,] mapData;
+    int[,] playerMap;
 
     int start = 1;
 
     void Start()
     {
         mapData = new int[width, height];
+        playerMap = new int[width,height];
 
         Restart();
 
@@ -57,7 +62,14 @@ public class GameManager : MonoBehaviour
         return tilemap.WorldToCell(mouseWorldPosition);
     }
 
-
+    public bool IsValidPosition(Vector3Int targetPosition)
+    {
+        if(IsInBounds(targetPosition) && mapData[targetPosition.x,targetPosition.y] == 0)
+        {
+            return true;
+        }
+        return false;
+    }
 
     public bool IsInBounds(Vector3Int targetPosition)
     {
@@ -69,18 +81,21 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    private void DrawMap()
+    public void DrawMap()
     {
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
             {
-                if (mapData[x,y] == 0)
+                if(playerMap[x,y] == 1 && tilemap.GetTile(new Vector3Int(x,y,0)) == null)
                 {
-                    tilemap.SetTile(new Vector3Int(x,y,0), GetRandomTile(pathTiles));
-                }
-                else if (mapData[x,y] == 1)
-                {
-                    tilemap.SetTile(new Vector3Int(x, y, 0), blockerTile);
+                    if (mapData[x,y] == 0)
+                    {
+                        tilemap.SetTile(new Vector3Int(x,y,0), GetRandomTile(pathTiles));
+                    }
+                    else if (mapData[x,y] == 1)
+                    {
+                        tilemap.SetTile(new Vector3Int(x, y, 0), blockerTile);
+                    }
                 }    
             }
     }
@@ -116,8 +131,9 @@ public class GameManager : MonoBehaviour
         SetStart();
         GenerateMap();
         ClearTilemap();
-        DrawMap();
         PlacePlayer();
+        RevealMap(new Vector3Int((int)player.transform.position.x, (int)player.transform.position.y, 0));
+        DrawMap();
     }
 
     private void SetStart()
@@ -136,8 +152,24 @@ public class GameManager : MonoBehaviour
     private void GenerateMap()
     {
         FillMap(1);
-
         BlindWalk();
+        playerMap = new int[width,height];
+    }
+
+    public void RevealMap(Vector3Int centerPosition)
+    {
+        for(int x = 0; x <= SightRange * 2; x++)
+            for(int y = 0; y <= SightRange * 2; y++)
+            {
+                int xPosition = centerPosition.x + x - SightRange;
+                int yPosition = centerPosition.y + y - SightRange;
+
+                if(IsInBounds(new Vector3Int(xPosition,yPosition,0)))
+                {
+                    playerMap[xPosition, yPosition] = 1;
+                }
+                
+            } 
     }
 
     private void BlindWalk()

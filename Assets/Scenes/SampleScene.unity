@@ -1349,10 +1349,11 @@ MonoBehaviour:
   - tile: {fileID: 11400000, guid: 396d0a404bcdb4e47a119588a8bdf36f, type: 2}
     weight: 0.117
   blockerTile: {fileID: 11400000, guid: aac2e3b2590f67441b4f51850b73facb, type: 2}
-  height: 8
-  width: 8
-  blindWalkMaxSteps: 1000
+  height: 16
+  width: 16
+  blindWalkMaxSteps: 10000
   player: {fileID: 709856069}
+  SightRange: 2
 --- !u!4 &887897411
 Transform:
   m_ObjectHideFlags: 0

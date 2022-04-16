@@ -44,9 +44,11 @@ public class PlayerController : MonoBehaviour
     {
         Vector3Int targetPosition = new Vector3Int((int)gameObject.transform.position.x,(int)gameObject.transform.position.y,0) + direction;
 
-        if (gameManager.IsInBounds(targetPosition))
+        if (gameManager.IsValidPosition(targetPosition))
             {
                 gameObject.transform.position += direction;
+                gameManager.RevealMap(targetPosition);
+                gameManager.DrawMap();
                 lastMove = Time.time;
             }      
     }
